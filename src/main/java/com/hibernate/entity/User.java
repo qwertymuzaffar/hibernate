@@ -1,11 +1,16 @@
 package com.hibernate.entity;
 
+
+
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import java.util.List;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,6 +33,9 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL)
     @Cascade(CascadeType.ALL) // Cascade operation will be handled by Hibernate
     private Profile profile;
+
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)  // "user" refers to the user field in the Post entity
+    private List<Post> posts;
 
     // Constructors, getters, and setters
     public User() {}
@@ -68,5 +76,12 @@ public class User {
 
     public void setProfile(Profile profile) {
         this.profile = profile;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 }

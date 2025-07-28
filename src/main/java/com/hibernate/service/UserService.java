@@ -2,6 +2,7 @@ package com.hibernate.service;
 
 import java.util.List;
 
+import com.hibernate.entity.Post;
 import com.hibernate.entity.User;
 
 import jakarta.persistence.EntityManager;
@@ -23,5 +24,16 @@ public class UserService {
 
     public User getUserById(int userId) {
         return entityManager.find(User.class, userId);
+    }
+
+    @Transactional
+    public void savePost(Post post) {
+        entityManager.persist(post);
+    }
+    public List<Post> getPostsByUserId(int userId) {
+        return entityManager
+                .createQuery("FROM Post p WHERE p.user.id = :userId", Post.class)
+                .setParameter("userId", userId)
+                .getResultList();
     }
 }

@@ -1,0 +1,27 @@
+package com.hibernate.service;
+
+import java.util.List;
+
+import com.hibernate.entity.User;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class UserService {
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Transactional
+    public void saveUserWithProfile(User user) {
+        entityManager.persist(user); // cascade saves profile too
+    }
+
+    public User getUserById(int userId) {
+        return entityManager.find(User.class, userId);
+    }
+}
